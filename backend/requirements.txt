@@ -10,3 +10,4 @@ soundfile
 tqdm
 transformers
 spacy
+flask-cors
