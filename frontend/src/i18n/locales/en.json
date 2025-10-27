@@ -1,0 +1,44 @@
+{
+  "app": { "title": "Video-Sent", "subtitle": "Phone video review sentiment" },
+  "form": {
+    "urlLabel": "Video URL",
+    "langLabel": "Video language",
+    "deviceLabel": "Name of the device",
+    "analyze": "Analyze",
+    "placeholder": "Paste YouTube or TikTok URL…",
+    "devicePlaceholder": "Write device name here",
+    "errors": { "required": "URL is required.", "invalid": "Please provide a valid URL." }
+  },
+  "lang": { "pl": "Polish", "en": "English" },
+  "state": { "validating": "Validating…", "loading": "Processing…", "error": "Error", "success": "Success" },
+  "history": { "title": "History", "empty": "No analyses yet. Paste a link and click Analyze.", "rerun": "Run again" },
+  "results": {
+    "title": "Results",
+    "global": "Global sentiment",
+    "aspects": { "camera": "Camera", "battery": "Battery", "display": "Display", "performance": "Performance", "design": "Design" },
+    "quotes": "Quotes",
+    "placeholder": "No results yet. Run an analysis to see the summary."
+  },
+  "theme": { "light": "Light", "dark": "Dark" },
+  "scores": {
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative"
+  },
+  "device": {
+    "empty": "No Name"
+  },
+  "charts": {
+    "title": "Analysis charts",
+    "open": "Show charts",
+    "openDisabled": "Charts available after analysis",
+    "close": "Close",
+    "placeholder": "Chart placeholder – will be filled later.",
+    "slots": {
+      "1": { "title": "Chart 1" },
+      "2": { "title": "Chart 2" },
+      "3": { "title": "Chart 3" },
+      "4": { "title": "Chart 4" }
+    }
+  }
+}
