@@ -9,7 +9,7 @@
     "devicePlaceholder": "Wpisz tutaj nazwę urządzenia",
     "errors": { "required": "URL jest wymagany.", "invalid": "Podaj poprawny adres URL." }
   },
-  "lang": { "pl": "Polski", "en": "English" },
+  "lang": { "pl": "Polski", "en": "Angielski" },
   "state": { "validating": "Walidacja…", "loading": "Przetwarzanie…", "error": "Błąd", "success": "Sukces" },
   "history": { "title": "Historia", "empty": "Brak analiz. Wklej link i kliknij Analizuj.", "rerun": "Uruchom ponownie" },
   "results": {
