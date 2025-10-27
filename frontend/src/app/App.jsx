@@ -10,6 +10,7 @@ export default function App() {
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState(null);
     const [result, setResult] = useState(null);
+    const [prefill, setPrefill] = useState(null);
 
     const runAnalyze = async ({ url, lang, device }) => {
         setErr(null); setLoading(true); setResult(null);
@@ -25,7 +26,7 @@ export default function App() {
         }
     };
 
-    const rerun = (url, lang) => runAnalyze({ url, lang });
+    const rerun = (url, lang, device) => setPrefill({ url, lang, device: device || "" });
 
     return (
       <PageLayout historyContent={<CookieHistory onRerun={rerun} />}>
@@ -37,7 +38,7 @@ export default function App() {
 
         <div className="row justify-content-center g-4">
           <div className="col-12 col-lg-8">
-            <UrlForm onSubmit={runAnalyze} loading={loading} />
+            <UrlForm onSubmit={runAnalyze} loading={loading} prefill={prefill} />
           </div>
         </div>
 

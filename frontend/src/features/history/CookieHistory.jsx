@@ -29,7 +29,7 @@ export default function CookieHistory({ onRerun }) {
                                         {new Date(it.createdAt).toLocaleString()} • {it.lang.toUpperCase()}
                                     </small>
                                 </div>
-                                <button className="btn btn-outline-secondary btn-sm" onClick={() => onRerun(it.url, it.lang)}>
+                                <button className="btn btn-outline-secondary btn-sm" onClick={() => onRerun(it.url, it.lang, it.device)}>
                                     {t("history.rerun")}
                                 </button>
                             </li>

@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 const urlSchema = z.string().url();
 
-export default function UrlForm({ onSubmit, loading }) {
+export default function UrlForm({ onSubmit, loading, prefill }) {
     const { t } = useTranslation();
     const [url, setUrl] = useState("");
     const [lang, setLang] = useState("pl");
     const [device, setDevice] = useState("");
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (!prefill) return;
+        if (typeof prefill.url !== "undefined") setUrl(prefill.url || "");
+        if (typeof prefill.lang !== "undefined") setLang(prefill.lang || "pl");
+        if (typeof prefill.device !== "undefined") setDevice(prefill.device || "");
+        setError(null);
+    }, [prefill]);
 
     const validate = () => {
         if (!url.trim()) return t("form.errors.required");
