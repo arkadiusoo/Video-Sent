@@ -3,8 +3,10 @@
   "form": {
     "urlLabel": "Link do filmu",
     "langLabel": "Język filmu",
+    "deviceLabel": "Nazwa urządzenia",
     "analyze": "Analizuj",
     "placeholder": "Wklej URL YouTube lub TikTok…",
+    "devicePlaceholder": "Wpisz tutaj nazwę urządzenia",
     "errors": { "required": "URL jest wymagany.", "invalid": "Podaj poprawny adres URL." }
   },
   "lang": { "pl": "Polski", "en": "English" },
@@ -22,6 +24,9 @@
     "positive": "Pozytywny",
     "neutral": "Neutralny",
     "negative": "Negatywny"
+  },
+  "device": {
+    "empty": "Brak Nazwy"
   }
 
 }

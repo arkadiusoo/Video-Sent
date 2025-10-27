@@ -8,6 +8,7 @@ export default function UrlForm({ onSubmit, loading }) {
     const { t } = useTranslation();
     const [url, setUrl] = useState("");
     const [lang, setLang] = useState("pl");
+    const [device, setDevice] = useState("");
     const [error, setError] = useState(null);
 
     const validate = () => {
@@ -22,7 +23,7 @@ export default function UrlForm({ onSubmit, loading }) {
         e.preventDefault();
         const err = validate();
         setError(err);
-        if (!err) await onSubmit({ url, lang });
+        if (!err) await onSubmit({ url, lang, device });
     };
 
     return (
@@ -41,6 +42,19 @@ export default function UrlForm({ onSubmit, loading }) {
                     onBlur={handleBlur}
                 />
                 {error && <div id="url-err" className="invalid-feedback">{error}</div>}
+            </div>
+
+            <div className="mb-3">
+                <label htmlFor="device" className="form-label fw-medium">{t("form.deviceLabel")}</label>
+                <input
+                    id="device"
+                    name="device"
+                    className="form-control"
+                    placeholder={t("form.devicePlaceholder")}
+                    value={device}
+                    onChange={(e) => setDevice(e.target.value)}
+                />
+                <div className="form-text">{t("form.deviceHelp")}</div>
             </div>
 
             <div className="row g-2 align-items-center">
@@ -79,11 +93,12 @@ export default function UrlForm({ onSubmit, loading }) {
                         </div>
                     </div>
                 </div>
-                <div className="col ms-auto">
-                    <button type="submit" disabled={loading} className="btn btn-brand w-100">
-                        {t("form.analyze")}
-                    </button>
-                </div>
+
+            </div>
+            <div className="col ms-auto">
+                <button type="submit" disabled={loading} className="btn btn-brand w-100">
+                    {t("form.analyze")}
+                </button>
             </div>
 
             <div aria-live="polite" className="form-text mt-2">

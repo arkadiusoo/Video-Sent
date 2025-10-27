@@ -11,13 +11,13 @@ export default function App() {
     const [err, setErr] = useState(null);
     const [result, setResult] = useState(null);
 
-    const runAnalyze = async ({ url, lang }) => {
+    const runAnalyze = async ({ url, lang, device }) => {
         setErr(null); setLoading(true); setResult(null);
         try {
-            const { jobId } = await apiStartAnalyze({ url, lang });
+            const { jobId } = await apiStartAnalyze({ url, lang, device });
             const res = await pollResult(jobId, { intervalMs: 1200, timeoutMs: 20000 });
             setResult(res);
-            pushHistory({ url, lang, createdAt: res.createdAt });
+            pushHistory({ url, lang, createdAt: res.createdAt, device: device || null });
         } catch (e) {
             setErr(e.message || "Error");
         } finally {
