@@ -53,7 +53,15 @@ export default function PageLayout({ children, historyContent }) {
                 overflowY: "auto"
               }}
             >
-              <div className="p-3">
+              <button
+                type="button"
+                className="btn-close position-absolute"
+                aria-label="Close history"
+                title="Close"
+                onClick={() => setOpen(false)}
+                style={{ top: 8, right: 10, zIndex: 1 }}
+              />
+              <div className="p-3" style={{ paddingTop: "5rem" }}>
                 {historyContent}
               </div>
               <div

@@ -1,5 +1,5 @@
 {
-  "app": { "title": "Video-Sent", "subtitle": "Video review sentiment by aspect" },
+  "app": { "title": "Video-Sent", "subtitle": "Phone video review sentiment" },
   "form": {
     "urlLabel": "Video URL",
     "langLabel": "Video language",

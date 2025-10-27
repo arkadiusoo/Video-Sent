@@ -1,5 +1,5 @@
 {
-  "app": { "title": "Video-Sent", "subtitle": "Analiza sentymentu recenzji wideo per aspekt" },
+  "app": { "title": "Video-Sent", "subtitle": "Analiza sentymentu recenzji wideo telefonów" },
   "form": {
     "urlLabel": "Link do filmu",
     "langLabel": "Język filmu",
