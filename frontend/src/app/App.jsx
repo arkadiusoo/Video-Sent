@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PageLayout from "../widgets/Layout/PageLayout";
+import PageLayout from "../widgets/Layouts/PageLayout";
 import UrlForm from "../features/submit/UrlForm";
 import CookieHistory from "../features/history/CookieHistory";
 import ResultsPanel from "../features/results/ResultsPanel";
