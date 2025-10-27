@@ -62,16 +62,15 @@ export default function UrlForm({ onSubmit, loading, prefill }) {
                     value={device}
                     onChange={(e) => setDevice(e.target.value)}
                 />
-                <div className="form-text">{t("form.deviceHelp")}</div>
             </div>
 
-            <div className="row g-2 align-items-center">
-                <div className="col-auto">
+            <div className="row">
+                <div className="col-12 text-center mb-1">
                     <span id="lang-label" className="col-form-label fw-medium">{t("form.langLabel")}</span>
                 </div>
-                <div className="col-auto">
-                    <div role="group" aria-labelledby="lang-label">
-                        <div className="form-check form-check-inline">
+                <div className="col-12">
+                    <div className="d-flex justify-content-center gap-4" role="group" aria-labelledby="lang-label">
+                        <div className="form-check">
                             <input
                                 className="form-check-input"
                                 type="radio"
@@ -85,7 +84,7 @@ export default function UrlForm({ onSubmit, loading, prefill }) {
                                 {t("lang.pl")}
                             </label>
                         </div>
-                        <div className="form-check form-check-inline">
+                        <div className="form-check">
                             <input
                                 className="form-check-input"
                                 type="radio"
@@ -101,9 +100,8 @@ export default function UrlForm({ onSubmit, loading, prefill }) {
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div className="col ms-auto">
+            <div className="mt-3">
                 <button type="submit" disabled={loading} className="btn btn-brand w-100">
                     {t("form.analyze")}
                 </button>

@@ -6,7 +6,7 @@
     "deviceLabel": "Name of the device",
     "analyze": "Analyze",
     "placeholder": "Paste YouTube or TikTok URL…",
-    "device": "Write device name here",
+    "devicePlaceholder": "Write device name here",
     "errors": { "required": "URL is required.", "invalid": "Please provide a valid URL." }
   },
   "lang": { "pl": "Polish", "en": "English" },
