@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next";
-import classNames from "classnames";
 
 function Badge({ score }) {
-    const color = score === "positive" ? "bg-green-600"
-        : score === "negative" ? "bg-red-600"
-            : "bg-gray-500";
-    return <span className={classNames("text-white text-xs px-2 py-0.5 rounded", color)}>{score}</span>;
+    const map = {
+        positive: "bg-success",
+        neutral: "bg-secondary",
+        negative: "bg-danger"
+    };
+    return <span className={`badge ${map[score] || "bg-secondary"}`}>{score}</span>;
 }
 
 export default function ResultsPanel({ result }) {
@@ -13,33 +14,44 @@ export default function ResultsPanel({ result }) {
 
     if (!result) {
         return (
-            <div className="rounded border p-4 h-full">
-                <h3 className="font-semibold mb-2">{t("results.title")}</h3>
-                <p className="opacity-70">{t("results.placeholder")}</p>
+            <div className="card border-brand h-100">
+                <div className="card-body">
+                    <h3 className="card-title fs-6 mb-2">{t("results.title")}</h3>
+                    <p className="text-body-secondary mb-0">{t("results.placeholder")}</p>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="rounded border p-4">
-            <div className="mb-4">
-                <h3 className="font-semibold">{t("results.title")}</h3>
-                <div className="mt-1 flex items-center gap-2">
-                    <span className="opacity-80">{t("results.global")}:</span>
-                    <Badge score={result.summary} />
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {result.aspects.map(a => (
-                    <div key={a.key} className="rounded border p-3">
-                        <div className="flex items-center justify-between mb-2">
-                            <span className="font-medium">{t(`results.aspects.${a.key}`)}</span>
-                            <Badge score={a.score} />
-                        </div>
-                        <p className="text-sm opacity-80" aria-label={t("results.quotes")}>“{a.quote}”</p>
+        <div className="card border-brand">
+            <div className="card-body">
+                <div className="d-flex align-items-center gap-2 mb-3">
+                    <h3 className="card-title fs-6 mb-0">{t("results.title")}</h3>
+                    <div className="ms-2">
+                        <span className="me-2">{t("results.global")}:</span>
+                        <Badge score={result.summary} />
                     </div>
-                ))}
+                </div>
+
+                <div className="row g-3">
+                    {result.aspects.map((a) => (
+                        <div className="col-12 col-sm-6 col-lg-4" key={a.key}>
+                            <div className="card h-100">
+                                <div className="card-body">
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <span className="fw-medium">{t(`results.aspects.${a.key}`)}</span>
+                                        <Badge score={a.score} />
+                                    </div>
+                                    <p className="small text-body-secondary mb-0" aria-label={t("results.quotes")}>
+                                        “{a.quote}”
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
             </div>
         </div>
     );

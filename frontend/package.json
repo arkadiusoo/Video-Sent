@@ -6,23 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 5174",
-    "lint": "echo \"(opcjonalnie: dodaj ESLint/prettier)\""
+    "preview": "vite preview --port 5174"
   },
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "classnames": "^2.5.1",
     "i18next": "^23.11.5",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.4",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.5.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13",
     "vite": "^5.4.8"
   }
 }

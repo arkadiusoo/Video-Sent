@@ -26,44 +26,46 @@ export default function UrlForm({ onSubmit, loading }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-3" aria-label="Analyze form">
-            <div className="flex flex-col gap-2">
-                <label htmlFor="url" className="font-medium">{t("form.urlLabel")}</label>
+        <form onSubmit={handleSubmit} aria-label="Analyze form" className="mb-3">
+            <div className="mb-3">
+                <label htmlFor="url" className="form-label fw-medium">{t("form.urlLabel")}</label>
                 <input
                     id="url"
                     name="url"
                     aria-invalid={!!error}
                     aria-describedby={error ? "url-err" : undefined}
-                    className="rounded border px-3 py-2 bg-white text-ink-black dark:bg-ink-black dark:text-white"
+                    className={`form-control ${error ? "is-invalid" : ""}`}
                     placeholder={t("form.placeholder")}
                     value={url}
-                    onChange={e => setUrl(e.target.value)}
+                    onChange={(e) => setUrl(e.target.value)}
                     onBlur={handleBlur}
                 />
-                {error && <p id="url-err" className="text-red-600 text-sm">{error}</p>}
+                {error && <div id="url-err" className="invalid-feedback">{error}</div>}
             </div>
 
-            <div className="flex items-center gap-3">
-                <label htmlFor="lang" className="font-medium">{t("form.langLabel")}</label>
-                <select
-                    id="lang"
-                    className="rounded border px-2 py-2 bg-white text-ink-black dark:bg-ink-black dark:text-white"
-                    value={lang}
-                    onChange={(e) => setLang(e.target.value)}
-                >
-                    <option value="pl">{t("lang.pl")}</option>
-                    <option value="en">{t("lang.en")}</option>
-                </select>
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="ml-auto rounded-lg bg-brand-purple px-4 py-2 text-white hover:opacity-90 disabled:opacity-50"
-                >
-                    {t("form.analyze")}
-                </button>
+            <div className="row g-2 align-items-center">
+                <div className="col-auto">
+                    <label htmlFor="lang" className="col-form-label fw-medium">{t("form.langLabel")}</label>
+                </div>
+                <div className="col-auto">
+                    <select
+                        id="lang"
+                        className="form-select"
+                        value={lang}
+                        onChange={(e) => setLang(e.target.value)}
+                    >
+                        <option value="pl">{t("lang.pl")}</option>
+                        <option value="en">{t("lang.en")}</option>
+                    </select>
+                </div>
+                <div className="col ms-auto">
+                    <button type="submit" disabled={loading} className="btn btn-brand w-100">
+                        {t("form.analyze")}
+                    </button>
+                </div>
             </div>
-            <div aria-live="polite" className="text-sm opacity-80">
+
+            <div aria-live="polite" className="form-text mt-2">
                 {loading ? t("state.loading") : null}
             </div>
         </form>

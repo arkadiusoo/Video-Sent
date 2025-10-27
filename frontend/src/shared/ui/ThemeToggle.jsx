@@ -3,36 +3,41 @@ import { useTranslation } from "react-i18next";
 
 export default function ThemeToggle() {
     const { t, i18n } = useTranslation();
-    const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
+    const [theme, setTheme] = useState(() => {
+        const saved = localStorage.getItem("vs_theme_bs");
+        if (saved === "dark" || saved === "light") return saved;
+        const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+        return prefersDark ? "dark" : "light";
+    });
 
     useEffect(() => {
-        const saved = localStorage.getItem("vs_theme");
-        if (saved) document.documentElement.classList.toggle("dark", saved === "dark");
-        setDark(document.documentElement.classList.contains("dark"));
-    }, []);
-
-    useEffect(() => {
-        document.documentElement.classList.toggle("dark", dark);
-        localStorage.setItem("vs_theme", dark ? "dark" : "light");
-    }, [dark]);
+        document.documentElement.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("vs_theme_bs", theme);
+    }, [theme]);
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="d-flex align-items-center gap-2">
             <select
                 aria-label="Language"
-                className="rounded border px-2 py-1 bg-white text-ink-black dark:bg-ink-black dark:text-white"
+                className="form-select form-select-sm"
+                style={{ width: 120 }}
                 value={i18n.language}
-                onChange={(e) => i18n.changeLanguage(e.target.value)}
+                onChange={(e) => {
+                    i18n.changeLanguage(e.target.value);
+                    localStorage.setItem("vs_lang", e.target.value);
+                }}
             >
                 <option value="pl">{t("lang.pl")}</option>
                 <option value="en">{t("lang.en")}</option>
             </select>
+
             <button
-                aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-                className="rounded-lg border px-3 py-1 hover:bg-brand-purple/10"
-                onClick={() => setDark(v => !v)}
+                type="button"
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => setTheme((v) => (v === "dark" ? "light" : "dark"))}
+                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             >
-                {dark ? t("theme.light") : t("theme.dark")}
+                {theme === "dark" ? t("theme.light") : t("theme.dark")}
             </button>
         </div>
     );

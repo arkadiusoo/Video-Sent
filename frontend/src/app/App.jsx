@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PageLayout from "../widgets/Layouts/PageLayout";
+import PageLayout from "../widgets/Layout/PageLayout";
 import UrlForm from "../features/submit/UrlForm";
 import CookieHistory from "../features/history/CookieHistory";
 import ResultsPanel from "../features/results/ResultsPanel";
@@ -29,19 +29,18 @@ export default function App() {
 
     return (
         <PageLayout>
-
             {err && (
-                <div role="alert" className="mb-4 rounded border border-red-600 bg-red-50 text-red-800 px-3 py-2">
+                <div className="alert alert-danger" role="alert">
                     {err}
                 </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-1 space-y-4">
+            <div className="row g-4">
+                <div className="col-12 col-lg-4">
                     <UrlForm onSubmit={runAnalyze} loading={loading} />
                     <CookieHistory onRerun={rerun} />
                 </div>
-                <div className="lg:col-span-2">
+                <div className="col-12 col-lg-8">
                     <ResultsPanel result={result} />
                 </div>
             </div>
