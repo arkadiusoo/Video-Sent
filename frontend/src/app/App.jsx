@@ -28,22 +28,24 @@ export default function App() {
     const rerun = (url, lang) => runAnalyze({ url, lang });
 
     return (
-        <PageLayout>
-            {err && (
-                <div className="alert alert-danger" role="alert">
-                    {err}
-                </div>
-            )}
+      <PageLayout historyContent={<CookieHistory onRerun={rerun} />}>
+        {err && (
+          <div className="alert alert-danger" role="alert">
+            {err}
+          </div>
+        )}
 
-            <div className="row g-4">
-                <div className="col-12 col-lg-4">
-                    <UrlForm onSubmit={runAnalyze} loading={loading} />
-                    <CookieHistory onRerun={rerun} />
-                </div>
-                <div className="col-12 col-lg-8">
-                    <ResultsPanel result={result} />
-                </div>
-            </div>
-        </PageLayout>
+        <div className="row justify-content-center g-4">
+          <div className="col-12 col-lg-8">
+            <UrlForm onSubmit={runAnalyze} loading={loading} />
+          </div>
+        </div>
+
+        <div className="row justify-content-center g-4">
+          <div className="col-12 col-lg-8">
+            <ResultsPanel result={result} />
+          </div>
+        </div>
+      </PageLayout>
     );
 }
