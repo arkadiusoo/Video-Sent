@@ -1,0 +1,21 @@
+{
+  "app": { "title": "Video-Sent", "subtitle": "Video review sentiment by aspect" },
+  "form": {
+    "urlLabel": "Video URL",
+    "langLabel": "Video language",
+    "analyze": "Analyze",
+    "placeholder": "Paste YouTube or TikTok URL…",
+    "errors": { "required": "URL is required.", "invalid": "Please provide a valid URL." }
+  },
+  "lang": { "pl": "Polish", "en": "English" },
+  "state": { "validating": "Validating…", "loading": "Processing…", "error": "Error", "success": "Success" },
+  "history": { "title": "History", "empty": "No analyses yet. Paste a link and click Analyze.", "rerun": "Run again" },
+  "results": {
+    "title": "Results",
+    "global": "Global sentiment",
+    "aspects": { "camera": "Camera", "battery": "Battery", "display": "Display", "performance": "Performance", "design": "Design" },
+    "quotes": "Quotes",
+    "placeholder": "No results yet. Run an analysis to see the summary."
+  },
+  "theme": { "light": "Light", "dark": "Dark" }
+}

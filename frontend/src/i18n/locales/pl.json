@@ -1,0 +1,21 @@
+{
+  "app": { "title": "Video-Sent", "subtitle": "Analiza sentymentu recenzji wideo per aspekt" },
+  "form": {
+    "urlLabel": "Link do filmu",
+    "langLabel": "Język filmu",
+    "analyze": "Analizuj",
+    "placeholder": "Wklej URL YouTube lub TikTok…",
+    "errors": { "required": "URL jest wymagany.", "invalid": "Podaj poprawny adres URL." }
+  },
+  "lang": { "pl": "Polski", "en": "English" },
+  "state": { "validating": "Walidacja…", "loading": "Przetwarzanie…", "error": "Błąd", "success": "Sukces" },
+  "history": { "title": "Historia", "empty": "Brak analiz. Wklej link i kliknij Analizuj.", "rerun": "Uruchom ponownie" },
+  "results": {
+    "title": "Wyniki",
+    "global": "Sentyment globalny",
+    "aspects": { "camera": "Aparat", "battery": "Bateria", "display": "Ekran", "performance": "Wydajność", "design": "Design" },
+    "quotes": "Cytaty",
+    "placeholder": "Brak wyników. Wykonaj analizę, aby zobaczyć podsumowanie."
+  },
+  "theme": { "light": "Jasny", "dark": "Ciemny" }
+}
