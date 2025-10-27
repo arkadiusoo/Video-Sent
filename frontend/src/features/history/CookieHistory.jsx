@@ -1,10 +1,15 @@
-import { readHistory } from "../../shared/lib/cookies";
-import { useMemo } from "react";
+import { readHistory, HISTORY_EVENT } from "../../shared/lib/cookies";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function CookieHistory({ onRerun }) {
     const { t } = useTranslation();
-    const items = useMemo(() => readHistory(), []);
+    const [items, setItems] = useState(() => readHistory());
+    useEffect(() => {
+        const onHist = () => setItems(readHistory());
+        window.addEventListener(HISTORY_EVENT, onHist);
+        return () => window.removeEventListener(HISTORY_EVENT, onHist);
+    }, []);
 
     return (
         <div className="card border-brand">
