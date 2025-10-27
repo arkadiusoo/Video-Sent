@@ -17,5 +17,11 @@
     "quotes": "Cytaty",
     "placeholder": "Brak wyników. Wykonaj analizę, aby zobaczyć podsumowanie."
   },
-  "theme": { "light": "Jasny", "dark": "Ciemny" }
+  "theme": { "light": "Jasny", "dark": "Ciemny" },
+  "scores": {
+    "positive": "Pozytywny",
+    "neutral": "Neutralny",
+    "negative": "Negatywny"
+  }
+
 }

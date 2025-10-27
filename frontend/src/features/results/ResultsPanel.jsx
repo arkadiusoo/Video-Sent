@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 
 function Badge({ score }) {
+    const { t } = useTranslation();
     const map = {
         positive: "bg-success",
         neutral: "bg-secondary",
         negative: "bg-danger"
     };
-    return <span className={`badge ${map[score] || "bg-secondary"}`}>{score}</span>;
+    return <span className={`badge ${map[score] || "bg-secondary"}`}>{t(`scores.${score}`, score)}</span>;
 }
 
 export default function ResultsPanel({ result }) {
@@ -43,9 +44,6 @@ export default function ResultsPanel({ result }) {
                                         <span className="fw-medium">{t(`results.aspects.${a.key}`)}</span>
                                         <Badge score={a.score} />
                                     </div>
-                                    <p className="small text-body-secondary mb-0" aria-label={t("results.quotes")}>
-                                        “{a.quote}”
-                                    </p>
                                 </div>
                             </div>
                         </div>

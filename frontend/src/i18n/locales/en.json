@@ -17,5 +17,10 @@
     "quotes": "Quotes",
     "placeholder": "No results yet. Run an analysis to see the summary."
   },
-  "theme": { "light": "Light", "dark": "Dark" }
+  "theme": { "light": "Light", "dark": "Dark" },
+  "scores": {
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative"
+  }
 }
