@@ -45,18 +45,39 @@ export default function UrlForm({ onSubmit, loading }) {
 
             <div className="row g-2 align-items-center">
                 <div className="col-auto">
-                    <label htmlFor="lang" className="col-form-label fw-medium">{t("form.langLabel")}</label>
+                    <span id="lang-label" className="col-form-label fw-medium">{t("form.langLabel")}</span>
                 </div>
                 <div className="col-auto">
-                    <select
-                        id="lang"
-                        className="form-select"
-                        value={lang}
-                        onChange={(e) => setLang(e.target.value)}
-                    >
-                        <option value="pl">{t("lang.pl")}</option>
-                        <option value="en">{t("lang.en")}</option>
-                    </select>
+                    <div role="group" aria-labelledby="lang-label">
+                        <div className="form-check form-check-inline">
+                            <input
+                                className="form-check-input"
+                                type="radio"
+                                name="lang"
+                                id="lang-pl"
+                                value="pl"
+                                checked={lang === "pl"}
+                                onChange={(e) => setLang(e.target.value)}
+                            />
+                            <label className="form-check-label" htmlFor="lang-pl">
+                                {t("lang.pl")}
+                            </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input
+                                className="form-check-input"
+                                type="radio"
+                                name="lang"
+                                id="lang-en"
+                                value="en"
+                                checked={lang === "en"}
+                                onChange={(e) => setLang(e.target.value)}
+                            />
+                            <label className="form-check-label" htmlFor="lang-en">
+                                {t("lang.en")}
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div className="col ms-auto">
                     <button type="submit" disabled={loading} className="btn btn-brand w-100">
