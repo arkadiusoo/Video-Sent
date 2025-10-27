@@ -27,5 +27,18 @@
   },
   "device": {
     "empty": "No Name"
+  },
+  "charts": {
+    "title": "Analysis charts",
+    "open": "Show charts",
+    "openDisabled": "Charts available after analysis",
+    "close": "Close",
+    "placeholder": "Chart placeholder – will be filled later.",
+    "slots": {
+      "1": { "title": "Chart 1" },
+      "2": { "title": "Chart 2" },
+      "3": { "title": "Chart 3" },
+      "4": { "title": "Chart 4" }
+    }
   }
 }

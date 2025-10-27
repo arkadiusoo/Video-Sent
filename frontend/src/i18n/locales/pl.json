@@ -27,6 +27,19 @@
   },
   "device": {
     "empty": "Brak Nazwy"
+  },
+  "charts": {
+    "title": "Wykresy analizy",
+    "open": "Pokaż wykresy",
+    "openDisabled": "Wykresy dostępne po analizie",
+    "close": "Zamknij",
+    "placeholder": "Miejsce na wykres – zostanie wypełnione później.",
+    "slots": {
+      "1": { "title": "Wykres 1" },
+      "2": { "title": "Wykres 2" },
+      "3": { "title": "Wykres 3" },
+      "4": { "title": "Wykres 4" }
+    }
   }
 
 }
