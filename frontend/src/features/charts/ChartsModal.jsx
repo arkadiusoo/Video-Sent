@@ -1,5 +1,4 @@
-// src/features/charts/ChartsModal.jsx
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 export default function ChartsModal({ show, onClose }) {
