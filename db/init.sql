@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS videosent.video_analysis (
     id BIGSERIAL PRIMARY KEY,
 
     title TEXT NOT NULL,
-    video_url TEXT NOT NULL CHECK (url ~ '^https?://'),
+    video_url TEXT NOT NULL CHECK (video_url ~ '^https?://'),
     video_length_seconds NUMERIC(10,3) NOT NULL CHECK (video_length_seconds > 0),
     device TEXT,
 
