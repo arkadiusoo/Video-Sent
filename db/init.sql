@@ -32,7 +32,7 @@ CREATE INDEX IF NOT EXISTS idx_video_analysis_created_at
     ON videosent.video_analysis (analysis_creation_timestamp DESC);
 
 INSERT INTO videosent.video_analysis
-(title, video_url, video_length_seconds, device, camera_score, battery_score, screen_score, performance_score, general_score
+(title, video_url, video_length_seconds, device, camera_score, battery_score, screen_score, performance_score, general_score,
  video_language, download_time_seconds, transcription_time_seconds, analysis_time_seconds)
 VALUES
 ('Review: XYZ Phone', 'https://www.youtube.com/watch?v=abcd1234', 1023.45, 'XYZ Phone', 8.5, 7.0, 9.0, 8.0, 8.0, 'en', 4.210, 28.330, 3.950);
