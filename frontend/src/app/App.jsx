@@ -21,6 +21,15 @@ export default function App() {
         try {
             const { jobId } = await apiStartAnalyze({ url, lang, device });
             const res = await pollResult(jobId, { intervalMs: 1200, timeoutMs: 20000 });
+
+            if (res.backend?.status === "success") {
+            setErr(null);
+            alert("Video successfully downloaded!");
+            }
+            else if (res.backend?.status === "error") {
+            alert ("Failed to download video: " + res.backend?.message);
+            }
+
             setResult(res);
             pushHistory({ url, lang, createdAt: res.createdAt, device: device || null });
         } catch (e) {
