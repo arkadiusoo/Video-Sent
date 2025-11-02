@@ -4,7 +4,8 @@ import pytest
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
-from stt.service import WHISPER_MODELS, transcribe_audio
+from stt.service import transcribe_audio
+from downloader.service import download_audio
 from difflib import SequenceMatcher
 import time
 from pydub import AudioSegment
@@ -105,3 +106,84 @@ def test_transcribe_audio_consistency_between_runs(audio_path,lang):
     res2 = transcribe_audio(audio_path, lang)
     acc = similarity(res1, res2)
     assert acc > 90, f"Niestabilna transkrypcja ({acc}%)"
+
+# =====================================================
+# TESTY INTEGRACYJNE downloader stt
+# =====================================================
+'''LINK_ENG = "https://www.youtube.com/watch?v=KUaQgRiJukA"
+LINK_PL = "https://www.youtube.com/watch?v=sOGEyuIttXY"
+
+REFERENCE_ENG_integration = """Two roads diverged in a yellow wood,
+And sorry I could not travel both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth;
+
+Then took the other, as just as fair,
+And having perhaps the better claim,
+Because it was grassy and wanted wear;
+Though as for that the passing there
+Had worn them really about the same,
+
+And both that morning equally lay
+In leaves no step had trodden black.
+Oh, I kept the first for another day!
+Yet knowing how way leads on to way,
+I doubted if I should ever come back.
+
+I shall be telling this with a sigh
+Somewhere ages and ages hence:
+Two roads diverged in a wood, and I—
+I took the one less traveled by,
+And that has made all the difference."""
+REFERENCE_PL_integration = """Nic dwa razy się nie zdarza
+i nie zdarzy. Z tej przyczyny
+zrodziliśmy się bez wprawy
+i pomrzemy bez rutyny.
+
+Choćbyśmy uczniami byli
+najlepszymi w szkole świata,
+nie będziemy repetować
+żadnej zimy ani lata.
+
+Żaden dzień się nie powtórzy,
+nie ma dwóch podobnych nocy,
+dwóch tych samych pocałunków,
+dwóch jednakich spojrzeń w oczy.
+
+Wczoraj, kiedy twoje imię
+ktoś wymówił przez mnie głośno,
+tak mi było, jakby róża
+przez otwarte wpadła okno.
+
+Dziś, kiedy jesteśmy razem,
+odwróciłam twarz ku ścianie.
+Róża? Jak wygląda róża?
+Czy to kwiat? A może kamień?
+
+Czemu ty się, zła godzino,
+z niepotrzebnym mieszasz lękiem?
+Jesteś – a więc musisz minąć.
+Miniesz – a więc to jest piękne.
+
+Uśmiechnięci, wpółobjęci
+spróbujemy szukać zgody,
+choć różnimy się od siebie
+jak dwie krople czystej wody.
+"""
+
+@pytest.mark.parametrize(
+    "audio_path,lang,reference",
+    [
+        (LINK_ENG, "en", REFERENCE_ENG_integration),
+        (LINK_PL,  "pl", REFERENCE_PL_integration),
+    ],
+    ids=["en", "pl"],
+)
+def integration_test_downloader_stt(link, lang, reference):
+    """Test integracyjny: pobieranie i transkrypcja audio."""
+    audio_path = download_audio(link)
+    result = transcribe_audio(audio_path, lang)
+
+    acc = similarity(result, reference)
+    assert acc >= 90, f"Zbyt niska dokładność: {acc}% (< 90%)"'''
