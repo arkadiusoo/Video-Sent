@@ -26,9 +26,12 @@ def analyze():
     link = data.get("link")
     if not link:
         return jsonify({"error": "Missing 'link' field"}), 400
+    language = data.get("language")
+    if not language:
+        return jsonify({"error": "Missing 'language' field"}), 400
 
     audio_path = download_audio(link)
-    transcript = transcribe_audio(audio_path)
+    transcript = transcribe_audio(audio_path, language)
     sentiment = analyze_sentiment(transcript)
 
     return jsonify({
