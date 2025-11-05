@@ -5,16 +5,7 @@ from stt.service import transcribe_audio
 from nlp.service import analyze_sentiment
 
 app = Flask(__name__)
-CORS(
-    app,
-    resources={r"/*": {"origins": [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173"
-    ]}},
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "OPTIONS"],
-    supports_credentials=False
-)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:51731"]}})
 
 @app.route("/health")
 def health():
