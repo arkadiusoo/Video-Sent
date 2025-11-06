@@ -12,23 +12,25 @@ export default function App() {
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState(null);
     const [result, setResult] = useState(null);
+    const [successMsg, setSuccessMsg] = useState(null);
     const [prefill, setPrefill] = useState(null);
     const [chartsOpen, setChartsOpen] = useState(false);
     const { t } = useTranslation();
 
     const runAnalyze = async ({ url, lang, device }) => {
-        setErr(null); setLoading(true); setResult(null);
+        setErr(null); setLoading(true); setResult(null);setSuccessMsg(null);
         try {
             const { jobId } = await apiStartAnalyze({ url, lang, device });
             const res = await pollResult(jobId, { intervalMs: 1200, timeoutMs: 20000 });
 
             if (res.backend?.status === "success") {
-            setErr(null);
-            alert("Video successfully downloaded!");
+              setErr(null);
+              setSuccessMsg("Video successfully downloaded!");
+              setTimeout(() => setSuccessMsg(null), 5000); // auto-hide after 5s
+            } else if (res.backend?.status === "error") {
+              setErr("Failed to download video: " + res.backend?.message);
             }
-            else if (res.backend?.status === "error") {
-            alert ("Failed to download video: " + res.backend?.message);
-            }
+
 
             setResult(res);
             pushHistory({ url, lang, createdAt: res.createdAt, device: device || null });
@@ -44,8 +46,28 @@ export default function App() {
     return (
       <PageLayout historyContent={<CookieHistory onRerun={rerun} />}>
         {err && (
-          <div className="alert alert-danger" role="alert">
+          <div
+            className="p-3 mb-3 text-center rounded"
+            style={{
+              backgroundColor: "#4a1c1c",
+              color: "#ffbdbd",
+              fontWeight: "500",
+            }}
+          >
             {err}
+          </div>
+        )}
+
+        {successMsg && (
+          <div
+            className="p-3 mb-3 text-center rounded"
+            style={{
+              backgroundColor: "#1c4a2a",
+              color: "#baffc9",
+              fontWeight: "500",
+            }}
+          >
+            {successMsg}
           </div>
         )}
 
