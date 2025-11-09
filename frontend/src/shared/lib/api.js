@@ -1,4 +1,6 @@
 const jobs = new Map();
+
+const API_BASE = "http://127.0.0.1:18081";
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function fakeAspects() {
@@ -10,7 +12,37 @@ function fakeAspects() {
     ];
 }
 
+
+async function requestDownloadFromBackend(url) {
+    try {
+        const res = await fetch(`${API_BASE}/download`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ link: url }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Backend responded with ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log("[API] /download response:", data);
+
+        if (data.status !== "success") {
+            throw new Error(data.message || "Download failed");
+        }
+
+        return data; // { status, message, file_path }
+    } catch (err) {
+        console.error("[API] Download error:", err);
+        throw new Error("Failed to download video via backend.");
+    }
+}
+
+
 export async function apiStartAnalyze({ url, lang, device }) {
+
+      const downloadResult = await requestDownloadFromBackend(url);
     // in the future: fetch('/api/analyze', { method:'POST', body: JSON.stringify({url, lang}) })
     const jobId = Math.random().toString(36).slice(2);
     (async () => {
@@ -20,7 +52,7 @@ export async function apiStartAnalyze({ url, lang, device }) {
         const negatives = aspects.filter(a => a.score === "negative").length;
         const summary = positives >= negatives ? "positive" : "negative";
         jobs.set(jobId, {
-            jobId, url, lang, device: device || null ,summary, aspects, createdAt: new Date().toISOString()
+            jobId, url, lang, device: device || null ,summary, aspects, createdAt: new Date().toISOString(), backend: downloadResult
         });
     })();
     return { jobId };

@@ -5,16 +5,7 @@ from stt.service import transcribe_audio
 from nlp.service import analyze_sentiment
 
 app = Flask(__name__)
-CORS(
-    app,
-    resources={r"/*": {"origins": [
-        "http://localhost:51731",
-        "http://127.0.0.1:51731"
-    ]}},
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "OPTIONS"],
-    supports_credentials=False
-)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}})
 
 @app.route("/health")
 def health():
@@ -39,6 +30,31 @@ def analyze():
         "transcript": transcript,
         "sentiment": sentiment
     })
+
+# Temporary, for testing download module
+@app.route("/download", methods=["POST"])
+def download_only():
+    data = request.get_json()
+    link = data.get("link")
+
+    if not link:
+        return jsonify({"status": "error", "message": "Missing 'link' field"}), 400
+
+    try:
+        file_path = download_audio(link)
+        return jsonify({
+            "status": "success",
+            "message": f"Video successfully downloaded.",
+            "file_path": file_path
+        })
+    except Exception as e:
+        print("[Downloader] Error:", e)
+        return jsonify({
+            "status": "error",
+            "message": f"Failed to download video: {str(e)}"
+        }), 500
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
