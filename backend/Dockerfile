@@ -15,6 +15,9 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+RUN python -m spacy download pl_core_news_sm
+RUN python -m spacy download en_core_web_sm
+
 
 COPY src/ .
 
