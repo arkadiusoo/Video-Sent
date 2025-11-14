@@ -58,18 +58,9 @@ def process_aspect_sentences(aspect_sentences: dict) -> dict:
 
 ### Główna metoda do analizy sentymentu z transkrypcji
 
-def analyze_sentiments(content: str, lang: str) -> dict:
+def analyse_sentiments(content: str, lang: str) -> dict:
     aspect_sentences = preprocess_data(content, lang)
     print(f"Aspect Sentences: {aspect_sentences}")
     sentiment_list = process_aspect_sentences(aspect_sentences)
     return sentiment_list
 
-'''
-file = open("./transcribe_2025-11-14 19_38_05.924528.txt", "r", encoding="utf-8")
-
-# Read the entire content of the file
-content = file.read()
-
-sentiments = analyze_sentiments(content, "pl")
-
-'''

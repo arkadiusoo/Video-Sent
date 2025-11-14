@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
-from nlp.analyser import preprocess_data, analyze_sentiments, ASPECTS, NLP
+from nlp.analyser import preprocess_data, analyse_sentiments, ASPECTS, NLP
 
 def test_preprocess_detects_aspects():
     text = "Aparat jest świetny. Bateria jest słaba."
@@ -57,7 +57,7 @@ def test_preprocess_does_not_return_aspect_sentences_for_wrong_language():
 
 def test_analyze_sentiment_does_not_return_rating_for_unmentioned_aspects():
     text = "Aparat jest świetny. Bateria jest słaba. Ekran jest jasny i wyraźny."
-    result = analyze_sentiments(text, "pl")
+    result = analyse_sentiments(text, "pl")
     assert "aparat" in result
     assert "bateria" in result
     assert "ekran" in result
