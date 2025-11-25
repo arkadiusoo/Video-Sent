@@ -91,7 +91,7 @@ export default function App() {
                           {result ? t("charts.open") : t("charts.openDisabled")}
                       </button>
                   </div>
-                  <ChartsModal show={chartsOpen} onClose={() => setChartsOpen(false)} />
+                  <ChartsModal show={chartsOpen} url={url} onClose={() => setChartsOpen(false)} />
               </div>
           </div>
       </PageLayout>

@@ -5,7 +5,6 @@ import BarChart from "../../charts/barChart.jsx";
 
 function ChartOfChoice(number) {
     const n = number.number
-    console.log(number)
     if (n === 0) {
         return <TimeChart></TimeChart>
     }
@@ -16,7 +15,7 @@ function ChartOfChoice(number) {
 }
 
 
-export default function ChartsModal({show, onClose}) {
+export default function ChartsModal({show, onClose, url}) {
     const {t} = useTranslation();
 
     return (
