@@ -121,6 +121,14 @@ def analyze():
         screen_score = sentiment.get("ekran", sentiment.get("screen", {})).get("rating")
         performance_score = sentiment.get("wydajność", sentiment.get("efficiency", {})).get("rating")
 
+        scores = [camera_score, battery_score, screen_score, performance_score]
+        valid_scores = [s for s in scores if s is not None]
+
+        if valid_scores:
+            general_score = sum(valid_scores) / len(valid_scores)
+        else:
+            general_score = None
+
         audio = AudioSegment.from_file(audio_path)
         video_length_seconds = round(audio.duration_seconds, 3)
 
@@ -136,7 +144,7 @@ def analyze():
             battery_score=battery_score,
             screen_score=screen_score,
             performance_score=performance_score,
-            general_score=None,
+            general_score=general_score,
             video_language=language,
             download_time_seconds=download_time_seconds,
             transcription_time_seconds=transcription_time_seconds,
