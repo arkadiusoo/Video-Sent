@@ -102,6 +102,10 @@ def analyze():
 
     if language not in ("pl", "en"):
         return jsonify({"error": "Invalid 'language', expected 'pl' or 'en'"}), 400
+    
+    device = data.get("device")
+    if not device:
+        return jsonify({"error": "Missing 'device' field"}), 400
 
     try:
         start_download = time.time()
@@ -139,7 +143,7 @@ def analyze():
             title=title,
             video_url=link,
             video_length_seconds=video_length_seconds,
-            device=None,
+            device=device,
             camera_score=camera_score,
             battery_score=battery_score,
             screen_score=screen_score,
