@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from downloader.service import download_audio
 from stt.service import transcribe_audio
-from nlp.service import analyze_sentiment
+from nlp.analyser import analyse_sentiments
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -113,31 +113,13 @@ def analyze():
         transcription_time_seconds = round(time.time() - start_transcription, 3)
 
         start_analysis = time.time()
-        sentiment = analyze_sentiment(transcript)
+        sentiment = analyse_sentiments(transcript, language)
         analysis_time_seconds = round(time.time() - start_analysis, 3)
 
-        def sentiment_to_score(sentiment_str: str) -> float:
-            mapping = {
-                "positive": 8.0,
-                "negative": 2.0,
-                "neutral": 5.0,
-            }
-            return mapping.get(sentiment_str, 5.0)
-
-        base_score = sentiment_to_score(sentiment)
-
-        camera_score = base_score
-        battery_score = base_score
-        screen_score = base_score
-        performance_score = base_score
-
-        scores = [
-            camera_score,
-            battery_score,
-            screen_score,
-            performance_score,
-        ]
-        general_score = float(np.mean(scores)) if scores else 5.0
+        camera_score = sentiment.get("aparat", sentiment.get("camera", {})).get("rating")
+        battery_score = sentiment.get("bateria", sentiment.get("battery", {})).get("rating")
+        screen_score = sentiment.get("ekran", sentiment.get("screen", {})).get("rating")
+        performance_score = sentiment.get("wydajność", sentiment.get("efficiency", {})).get("rating")
 
         audio = AudioSegment.from_file(audio_path)
         video_length_seconds = round(audio.duration_seconds, 3)
@@ -154,7 +136,7 @@ def analyze():
             battery_score=battery_score,
             screen_score=screen_score,
             performance_score=performance_score,
-            general_score=general_score,
+            general_score=None,
             video_language=language,
             download_time_seconds=download_time_seconds,
             transcription_time_seconds=transcription_time_seconds,
