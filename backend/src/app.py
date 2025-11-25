@@ -94,6 +94,53 @@ def get_video_stats(analysis_id: int):
         return jsonify({"error": "Internal server error"}), 500
 
 
+@app.route("/video-stats/by-link", methods=["GET"])
+def get_video_stats_by_link():
+    link = request.args.get("link")
+    if not link:
+        return jsonify({"error": "Missing 'link' query parameter"}), 400
+
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute(
+                    """
+                    SELECT
+                        video_url,
+                        COUNT(*)           AS analyses_count,
+
+                        AVG(camera_score)      AS avg_camera_score,
+                        AVG(battery_score)     AS avg_battery_score,
+                        AVG(screen_score)      AS avg_screen_score,
+                        AVG(performance_score) AS avg_performance_score,
+                        AVG(general_score)     AS avg_general_score,
+
+                        AVG(download_time_seconds)      AS avg_download_time_seconds,
+                        AVG(transcription_time_seconds) AS avg_transcription_time_seconds,
+                        AVG(analysis_time_seconds)      AS avg_analysis_time_seconds,
+
+                        MIN(analysis_creation_timestamp) AS first_analysis_timestamp,
+                        MAX(analysis_creation_timestamp) AS last_analysis_timestamp
+                    FROM videosent.video_analysis
+                    WHERE video_url = %s
+                    GROUP BY video_url
+                    """,
+                    (link,),
+                )
+                row = cur.fetchone()
+
+        if row is None:
+            return jsonify({
+                "error": "No analyses found for given link",
+                "link": link
+            }), 404
+
+        return jsonify(row), 200
+
+    except Exception:
+        return jsonify({"error": "Internal server error"}), 500
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
