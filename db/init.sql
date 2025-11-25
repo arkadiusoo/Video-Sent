@@ -8,11 +8,11 @@ CREATE TABLE IF NOT EXISTS videosent.video_analysis (
     video_length_seconds NUMERIC(10,3) NOT NULL CHECK (video_length_seconds > 0),
     device TEXT,
 
-    camera_score NUMERIC(4,2) NOT NULL CHECK (camera_score BETWEEN 0 AND 10),
-    battery_score NUMERIC(4,2) NOT NULL CHECK (battery_score BETWEEN 0 AND 10),
-    screen_score NUMERIC(4,2) NOT NULL CHECK (screen_score BETWEEN 0 AND 10),
-    performance_score NUMERIC(4,2) NOT NULL CHECK (performance_score BETWEEN 0 AND 10),
-    general_score NUMERIC(4,2) NOT NULL CHECK (general_score BETWEEN 0 AND 10),
+    camera_score NUMERIC(4,2) CHECK (camera_score BETWEEN 0 AND 10),
+    battery_score NUMERIC(4,2) CHECK (battery_score BETWEEN 0 AND 10),
+    screen_score NUMERIC(4,2) CHECK (screen_score BETWEEN 0 AND 10),
+    performance_score NUMERIC(4,2) CHECK (performance_score BETWEEN 0 AND 10),
+    general_score NUMERIC(4,2) CHECK (general_score BETWEEN 0 AND 10),
 
     video_language VARCHAR(2) NOT NULL CHECK (video_language IN ('pl', 'en')),
 
