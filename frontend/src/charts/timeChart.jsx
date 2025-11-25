@@ -10,8 +10,8 @@ export default function TimeChart() {
 
     // 1. Chart Configuration (Remains the same, but passed directly to the <Chart/> component)
     const chartConfig = {
-        series: [44, 55, 13, 43, 22],
-        options: { // All chart settings go under the 'options' property
+        series: [44, 55, 13],
+        options: {
             chart: {
                 type: "pie",
                 width: 280,
@@ -26,16 +26,16 @@ export default function TimeChart() {
             dataLabels: {
                 enabled: false,
             },
-            colors: ["#020617", "#ff8f00", "#00897b", "#1e88e5", "#d81b60"],
+            colors: ["#ff8f00", "#00897b", "#1e88e5"],
             legend: {
                 show: false,
             },
-            labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+            labels: ['download', 'transcription', 'analysis'],
         },
     };
 
     return (
-        <div className="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+        <div className="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-md">
             <div className="py-6 mt-4 grid place-items-center px-2">
                 {/* 2. Use the dedicated Chart component */}
                 <Chart

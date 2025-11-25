@@ -45,8 +45,8 @@ const useScript = (url) => {
 const chartConfig = {
     series: [
         {
-            name: "Sales",
-            data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+            name: "score",
+            data: [8.5, 7, 9, 8, 8],
         },
     ],
     chart: {
@@ -62,7 +62,7 @@ const chartConfig = {
     dataLabels: {
         enabled: false,
     },
-    colors: ["#020617"],
+    colors: ["#114fff"],
     plotOptions: {
         bar: {
             columnWidth: "40%",
@@ -78,28 +78,24 @@ const chartConfig = {
         },
         labels: {
             style: {
-                colors: "#616161",
+                colors: "#e4e4e4",
                 fontSize: "12px",
                 fontFamily: "Inter, sans-serif",
                 fontWeight: 400,
             },
         },
         categories: [
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
+            "Camera",
+            "Battery",
+            "Screen",
+            "Performance",
+            "General"
         ],
     },
     yaxis: {
         labels: {
             style: {
-                colors: "#616161",
+                colors: "#e4e4e4",
                 fontSize: "12px",
                 fontFamily: "Inter, sans-serif",
                 fontWeight: 400,
@@ -108,7 +104,7 @@ const chartConfig = {
     },
     grid: {
         show: true,
-        borderColor: "#dddddd",
+        borderColor: "#000000",
         strokeDashArray: 5,
         xaxis: {
             lines: {
@@ -187,7 +183,7 @@ const App = () => {
         <div
             className="min-h-screen bg-gray-50 p-4 md:p-8 flex justify-center items-start">
             <div
-                className="relative flex w-full max-w-4xl flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-xl">
+                className="relative flex w-full max-w-4xl flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-xl">
 
                 <div className="p-4 pt-0">
                     {/* Przekazujemy stan załadowania do komponentu wykresu */}
