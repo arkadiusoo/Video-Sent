@@ -10,6 +10,11 @@ services:
       - ./backend/src/tests/stt:/app/tests/stt
     environment:
       - PYTHONUNBUFFERED=1
+      - DB_NAME=videosent
+      - DB_USER=videosent
+      - DB_PASSWORD=videosent
+      - DB_HOST=db
+      - DB_PORT=5432
     healthcheck:
       test: [ "CMD-SHELL", "python -c \"import sys,urllib.request; sys.exit(0 if urllib.request.urlopen('http://localhost:8080/health').status==200 else 1)\"" ]
       interval: 10s
