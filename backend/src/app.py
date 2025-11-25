@@ -82,7 +82,7 @@ def save_video_analysis(
     return new_id
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://localhost:51731"]}})
 
 @app.route("/health")
 def health():
