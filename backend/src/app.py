@@ -6,6 +6,10 @@ from nlp.service import analyze_sentiment
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import time
+import numpy as np
+from pydub import AudioSegment
+import traceback
 
 def get_db_connection():
     return psycopg2.connect(
@@ -16,6 +20,67 @@ def get_db_connection():
         port=os.getenv("DB_PORT", "5432"),
     )
 
+def save_video_analysis(
+        *,
+        title: str,
+        video_url: str,
+        video_length_seconds: float,
+        device: str,
+        camera_score: float,
+        battery_score: float,
+        screen_score: float,
+        performance_score: float,
+        general_score: float,
+        video_language: str,
+        download_time_seconds: float,
+        transcription_time_seconds: float,
+        analysis_time_seconds: float,
+        ) -> int:
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO videosent.video_analysis (
+                title,
+                video_url,
+                video_length_seconds,
+                device,
+                camera_score,
+                battery_score,
+                screen_score,
+                performance_score,
+                general_score,
+                video_language,
+                download_time_seconds,
+                transcription_time_seconds,
+                analysis_time_seconds
+                )
+                VALUES (
+                %s, %s, %s, %s,
+                %s, %s, %s, %s, %s,
+                %s, %s, %s, %s
+                )
+                RETURNING id
+                """,
+                (
+                    title,
+                    video_url,
+                    video_length_seconds,
+                    device,
+                    camera_score,
+                    battery_score,
+                    screen_score,
+                    performance_score,
+                    general_score,
+                    video_language,
+                    download_time_seconds,
+                    transcription_time_seconds,
+                    analysis_time_seconds,
+                ),
+            )
+            new_id = cur.fetchone()[0]
+    return new_id
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}})
 
@@ -25,23 +90,88 @@ def health():
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    data = request.get_json()
+    data = request.get_json() or {}
+
     link = data.get("link")
     if not link:
         return jsonify({"error": "Missing 'link' field"}), 400
+
     language = data.get("language")
     if not language:
         return jsonify({"error": "Missing 'language' field"}), 400
 
-    audio_path = download_audio(link)
-    transcript = transcribe_audio(audio_path, language)
-    sentiment = analyze_sentiment(transcript)
+    if language not in ("pl", "en"):
+        return jsonify({"error": "Invalid 'language', expected 'pl' or 'en'"}), 400
 
-    return jsonify({
-        "link": link,
-        "transcript": transcript,
-        "sentiment": sentiment
-    })
+    try:
+        start_download = time.time()
+        audio_path = download_audio(link)
+        download_time_seconds = round(time.time() - start_download, 3)
+
+        start_transcription = time.time()
+        transcript = transcribe_audio(audio_path, language)
+        transcription_time_seconds = round(time.time() - start_transcription, 3)
+
+        start_analysis = time.time()
+        sentiment = analyze_sentiment(transcript)
+        analysis_time_seconds = round(time.time() - start_analysis, 3)
+
+        def sentiment_to_score(sentiment_str: str) -> float:
+            mapping = {
+                "positive": 8.0,
+                "negative": 2.0,
+                "neutral": 5.0,
+            }
+            return mapping.get(sentiment_str, 5.0)
+
+        base_score = sentiment_to_score(sentiment)
+
+        camera_score = base_score
+        battery_score = base_score
+        screen_score = base_score
+        performance_score = base_score
+
+        scores = [
+            camera_score,
+            battery_score,
+            screen_score,
+            performance_score,
+        ]
+        general_score = float(np.mean(scores)) if scores else 5.0
+
+        audio = AudioSegment.from_file(audio_path)
+        video_length_seconds = round(audio.duration_seconds, 3)
+
+        base_name = os.path.basename(audio_path)
+        title, _ = os.path.splitext(base_name)
+
+        analysis_id = save_video_analysis(
+            title=title,
+            video_url=link,
+            video_length_seconds=video_length_seconds,
+            device=None,
+            camera_score=camera_score,
+            battery_score=battery_score,
+            screen_score=screen_score,
+            performance_score=performance_score,
+            general_score=general_score,
+            video_language=language,
+            download_time_seconds=download_time_seconds,
+            transcription_time_seconds=transcription_time_seconds,
+            analysis_time_seconds=analysis_time_seconds,
+        )
+
+        return jsonify({
+            "link": link,
+            "transcript": transcript,
+            "sentiment": sentiment,
+            "analysis_id": analysis_id
+        }), 200
+
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": "Internal server error"}), 500
+
 
 # Temporary, for testing download module
 @app.route("/download", methods=["POST"])
@@ -65,34 +195,6 @@ def download_only():
             "status": "error",
             "message": f"Failed to download video: {str(e)}"
         }), 500
-
-
-@app.route("/video-stats/<int:analysis_id>", methods=["GET"])
-def get_video_stats(analysis_id: int):
-    try:
-        with get_db_connection() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                cur.execute(
-                    """
-                    SELECT *
-                    FROM videosent.video_analysis
-                    WHERE id = %s
-                    """,
-                    (analysis_id,),
-                )
-                row = cur.fetchone()
-
-        if row is None:
-            return jsonify({
-                "error": "Analysis not found",
-                "id": analysis_id
-            }), 404
-
-        return jsonify(row), 200
-
-    except Exception as e:
-        return jsonify({"error": "Internal server error"}), 500
-
 
 @app.route("/video-stats/by-link", methods=["GET"])
 def get_video_stats_by_link():

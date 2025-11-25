@@ -12,3 +12,5 @@ transformers
 spacy
 flask-cors
 psycopg2-binary
+numpy
+pydub
