@@ -36,12 +36,12 @@ export async function requestData(url) {
     }
 }
 
-async function requestDownloadFromBackend(url) {
+async function requestDownloadFromBackend(url, lang, device) {
     try {
-        const res = await fetch(`${API_BASE}/download`, {
+        const res = await fetch(`${API_BASE}/analyze`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({link: url}),
+            body: JSON.stringify({link: url, language: lang, device: device}),
         });
 
         if (!res.ok) {
@@ -51,9 +51,9 @@ async function requestDownloadFromBackend(url) {
         const data = await res.json();
         console.log("[API] /download response:", data);
 
-        if (data.status !== "success") {
-            throw new Error(data.message || "Download failed");
-        }
+        // if (data.status !== "success") {
+        //     throw new Error(data.message || "Download failed");
+        // }
 
         return data; // { status, message, file_path }
     } catch (err) {
@@ -65,7 +65,7 @@ async function requestDownloadFromBackend(url) {
 
 export async function apiStartAnalyze({url, lang, device}) {
 
-    const downloadResult = await requestDownloadFromBackend(url);
+    const downloadResult = await requestDownloadFromBackend(url, lang, device);
     // in the future: fetch('/api/analyze', { method:'POST', body: JSON.stringify({url, lang}) })
     const jobId = Math.random().toString(36).slice(2);
     (async () => {
