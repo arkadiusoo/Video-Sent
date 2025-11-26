@@ -1,5 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
+
+
 // Custom hook to load an external script dynamically
 const useScript = (url) => {
     const [loaded, setLoaded] = useState(false);
@@ -41,100 +43,107 @@ const useScript = (url) => {
     return loaded;
 };
 
-// Konfiguracja wykresu (bez zmian)
-const chartConfig = {
-    series: [
-        {
-            name: "score",
-            data: [8.5, 7, 9, 8, 8],
-        },
-    ],
-    chart: {
-        type: "bar",
-        height: 240,
-        toolbar: {
-            show: false,
-        },
-    },
-    title: {
-        show: "",
-    },
-    dataLabels: {
-        enabled: false,
-    },
-    colors: ["#114fff"],
-    plotOptions: {
-        bar: {
-            columnWidth: "40%",
-            borderRadius: 4,
-        },
-    },
-    xaxis: {
-        axisTicks: {
-            show: false,
-        },
-        axisBorder: {
-            show: false,
-        },
-        labels: {
-            style: {
-                colors: "#e4e4e4",
-                fontSize: "12px",
-                fontFamily: "Inter, sans-serif",
-                fontWeight: 400,
-            },
-        },
-        categories: [
-            "Camera",
-            "Battery",
-            "Screen",
-            "Performance",
-            "General"
-        ],
-    },
-    yaxis: {
-        labels: {
-            style: {
-                colors: "#e4e4e4",
-                fontSize: "12px",
-                fontFamily: "Inter, sans-serif",
-                fontWeight: 400,
-            },
-        },
-    },
-    grid: {
-        show: true,
-        borderColor: "#000000",
-        strokeDashArray: 5,
-        xaxis: {
-            lines: {
-                show: true,
-            },
-        },
-        padding: {
-            top: 5,
-            right: 20,
-        },
-    },
-    fill: {
-        opacity: 0.9,
-    },
-    tooltip: {
-        theme: "dark",
-    },
-};
 
 /**
  * Komponent do obsługi montowania i renderowania ApexChart.
  * Teraz czeka na załadowanie biblioteki.
  */
-const BarChartComponent = ({isLibraryLoaded}) => {
+
+
+const BarChartComponent = ({isLibraryLoaded,data}) => {
+    console.log("data")
+    console.log(data)
     const chartRef = useRef(null);
+    const chartConfig = {
+        series: [
+            {
+                name: "score",
+                data: [
+                    data.data.avg_camera_score,
+                    data.data.avg_battery_score,
+                    data.data.avg_screen_score,
+                    data.data.avg_performance_score,
+                    data.data.avg_general_score],
+            },
+        ],
+        chart: {
+            type: "bar",
+            height: 240,
+            toolbar: {
+                show: false,
+            },
+        },
+        title: {
+            show: "",
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        colors: ["#114fff"],
+        plotOptions: {
+            bar: {
+                columnWidth: "40%",
+                borderRadius: 4,
+            },
+        },
+        xaxis: {
+            axisTicks: {
+                show: false,
+            },
+            axisBorder: {
+                show: false,
+            },
+            labels: {
+                style: {
+                    colors: "#e4e4e4",
+                    fontSize: "12px",
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 400,
+                },
+            },
+            categories: [
+                "Camera",
+                "Battery",
+                "Screen",
+                "Performance",
+                "General"
+            ],
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: "#e4e4e4",
+                    fontSize: "12px",
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 400,
+                },
+            },
+        },
+        grid: {
+            show: true,
+            borderColor: "#000000",
+            strokeDashArray: 5,
+            xaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+            padding: {
+                top: 5,
+                right: 20,
+            },
+        },
+        fill: {
+            opacity: 0.9,
+        },
+        tooltip: {
+            theme: "dark",
+        },
+    };
 
     useEffect(() => {
         let chartInstance;
 
-        // Inicjalizacja tylko, gdy biblioteka jest załadowana ORAZ ref jest gotowy
         if (isLibraryLoaded && window.ApexCharts && chartRef.current) {
             chartInstance = new window.ApexCharts(chartRef.current, chartConfig);
             chartInstance.render();
@@ -171,14 +180,14 @@ const BarChartComponent = ({isLibraryLoaded}) => {
     return <div ref={chartRef} className="h-60 w-full"/>;
 };
 
-
 /**
  * Główny komponent aplikacji.
  */
-const App = () => {
+const App = (data) => {
+    if (!data)
+        return null
     // Dynamicznie ładujemy skrypt biblioteki ApexCharts
     const isApexLoaded = useScript("https://cdn.jsdelivr.net/npm/apexcharts");
-
     return (
         <div
             className="min-h-screen bg-gray-50 p-4 md:p-8 flex justify-center items-start">
@@ -187,7 +196,7 @@ const App = () => {
 
                 <div className="p-4 pt-0">
                     {/* Przekazujemy stan załadowania do komponentu wykresu */}
-                    <BarChartComponent isLibraryLoaded={isApexLoaded}/>
+                    <BarChartComponent isLibraryLoaded={isApexLoaded} data={data}/>
                 </div>
 
             </div>

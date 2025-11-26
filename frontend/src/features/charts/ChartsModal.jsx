@@ -2,21 +2,43 @@ import {Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import TimeChart from "../../charts/timeChart"
 import BarChart from "../../charts/barChart.jsx";
-
-function ChartOfChoice(number) {
-    const n = number.number
-    if (n === 0) {
-        return <TimeChart></TimeChart>
-    }
-    if (n === 1) {
-        return <BarChart></BarChart>
-    }
-    return null
-}
-
+import {requestData} from "../../shared/lib/api.js";
+import {useEffect, useState} from "react";
 
 export default function ChartsModal({show, onClose, url}) {
+    const [data, setData] = useState(null);
     const {t} = useTranslation();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            url = "https://www.youtube.com/watch?v=zzMInF04PtE"
+            const localdata = await requestData(url)
+            setData(localdata)
+        };
+        fetchData();
+    }, []);
+
+    function ChartOfChoice(number) {
+        const n = number.number
+        if (n === 0) {
+            return (
+                <div>
+                    <h2>{t(`final_charts.times`)}</h2>
+                    <TimeChart
+                        data={data}
+                    />
+                </div>
+            );
+        }
+        if (n === 1) {
+            return (
+                <div>
+                    <h2>{t(`final_charts.values`)}</h2><BarChart
+                    data={data}></BarChart></div>
+            );
+        }
+        return null
+    }
 
     return (
         <Modal
@@ -31,7 +53,6 @@ export default function ChartsModal({show, onClose, url}) {
                 <Modal.Title
                     id="charts-modal-title">{t("charts.title")}</Modal.Title>
             </Modal.Header>
-
             <Modal.Body>
                 <div className="container-fluid">
                     <div className="row g-3">
@@ -42,7 +63,6 @@ export default function ChartsModal({show, onClose, url}) {
                                         className="card-body d-flex align-items-center justify-content-center text-center">
                                         <div>
                                             <div className="fw-medium mb-2">
-                                                {t(`charts.slots.${idx + 1}.title`)}
                                                 <ChartOfChoice
                                                     number={idx}></ChartOfChoice>
                                             </div>

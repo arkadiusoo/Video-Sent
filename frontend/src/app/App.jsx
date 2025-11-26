@@ -16,8 +16,10 @@ export default function App() {
     const [prefill, setPrefill] = useState(null);
     const [chartsOpen, setChartsOpen] = useState(false);
     const { t } = useTranslation();
+    const [url,setUrl] = useState("")
 
     const runAnalyze = async ({ url, lang, device }) => {
+        setUrl(url)
         setErr(null); setLoading(true); setResult(null);setSuccessMsg(null);
         try {
             const { jobId } = await apiStartAnalyze({ url, lang, device });
@@ -76,7 +78,6 @@ export default function App() {
             <UrlForm onSubmit={runAnalyze} loading={loading} prefill={prefill} />
           </div>
         </div>
-
           <div className="row justify-content-center g-4">
               <div className="col-12 col-lg-8">
                   <ResultsPanel result={result} />

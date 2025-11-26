@@ -5,20 +5,43 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function fakeAspects() {
     return [
-        { key: "camera", score: "positive"},
-        { key: "battery", score: "neutral"},
-        { key: "display", score: "negative"},
-        { key: "performance", score: "positive"},
+        {key: "camera", score: "positive"},
+        {key: "battery", score: "neutral"},
+        {key: "display", score: "negative"},
+        {key: "performance", score: "positive"},
     ];
 }
 
+export async function requestData(url) {
+    if (!url) {
+        return null
+    }
+    try {
+        const res = await fetch(`${API_BASE}/video-stats/by-link?link=`+url,
+            {
+                method: "GET"
+
+            })
+        if (!res.ok) {
+        return null
+        }
+
+        const data = await res.json();
+
+        return data;
+
+    } catch (err) {
+        console.error("[API] Download error:", err);
+        return null
+    }
+}
 
 async function requestDownloadFromBackend(url) {
     try {
         const res = await fetch(`${API_BASE}/download`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ link: url }),
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({link: url}),
         });
 
         if (!res.ok) {
@@ -40,9 +63,9 @@ async function requestDownloadFromBackend(url) {
 }
 
 
-export async function apiStartAnalyze({ url, lang, device }) {
+export async function apiStartAnalyze({url, lang, device}) {
 
-      const downloadResult = await requestDownloadFromBackend(url);
+    const downloadResult = await requestDownloadFromBackend(url);
     // in the future: fetch('/api/analyze', { method:'POST', body: JSON.stringify({url, lang}) })
     const jobId = Math.random().toString(36).slice(2);
     (async () => {
@@ -52,20 +75,30 @@ export async function apiStartAnalyze({ url, lang, device }) {
         const negatives = aspects.filter(a => a.score === "negative").length;
         const summary = positives >= negatives ? "positive" : "negative";
         jobs.set(jobId, {
-            jobId, url, lang, device: device || null ,summary, aspects, createdAt: new Date().toISOString(), backend: downloadResult
+            jobId,
+            url,
+            lang,
+            device: device || null,
+            summary,
+            aspects,
+            createdAt: new Date().toISOString(),
+            backend: downloadResult
         });
     })();
-    return { jobId };
+    return {jobId};
 }
 
 export async function apiGetAnalyze(jobId) {
     // in the future: fetch(`/api/analyze/${jobId}`)
     const hit = jobs.get(jobId);
-    if (!hit) return { status: "pending" };
+    if (!hit) return {status: "pending"};
     return hit;
 }
 
-export async function pollResult(jobId, { intervalMs = 1200, timeoutMs = 15000 } = {}) {
+export async function pollResult(jobId, {
+    intervalMs = 1200,
+    timeoutMs = 15000
+} = {}) {
     const start = Date.now();
     while (Date.now() - start < timeoutMs) {
         const res = await apiGetAnalyze(jobId);
