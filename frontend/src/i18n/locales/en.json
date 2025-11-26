@@ -1,5 +1,12 @@
 {
-  "app": { "title": "Video-Sent", "subtitle": "Phone video review sentiment" },
+  "app": {
+    "title": "Video-Sent",
+    "subtitle": "Phone video review sentiment"
+  },
+  "final_charts": {
+    "times": "Average Analysis times",
+    "values": "Average Analysis results"
+  },
   "form": {
     "urlLabel": "Video URL",
     "langLabel": "Video language",
@@ -7,19 +14,43 @@
     "analyze": "Analyze",
     "placeholder": "Paste YouTube or TikTok URL…",
     "devicePlaceholder": "Write device name here",
-    "errors": { "required": "URL is required.", "invalid": "Please provide a valid URL." }
+    "errors": {
+      "required": "URL is required.",
+      "invalid": "Please provide a valid URL."
+    }
   },
-  "lang": { "pl": "Polish", "en": "English" },
-  "state": { "validating": "Validating…", "loading": "Processing…", "error": "Error", "success": "Success" },
-  "history": { "title": "History", "empty": "No analyses yet. Paste a link and click Analyze.", "rerun": "Run again" },
+  "lang": {
+    "pl": "Polish",
+    "en": "English"
+  },
+  "state": {
+    "validating": "Validating…",
+    "loading": "Processing…",
+    "error": "Error",
+    "success": "Success"
+  },
+  "history": {
+    "title": "History",
+    "empty": "No analyses yet. Paste a link and click Analyze.",
+    "rerun": "Run again"
+  },
   "results": {
     "title": "Results",
     "global": "Global sentiment",
-    "aspects": { "camera": "Camera", "battery": "Battery", "display": "Display", "performance": "Performance", "design": "Design" },
+    "aspects": {
+      "camera": "Camera",
+      "battery": "Battery",
+      "display": "Display",
+      "performance": "Performance",
+      "design": "Design"
+    },
     "quotes": "Quotes",
     "placeholder": "No results yet. Run an analysis to see the summary."
   },
-  "theme": { "light": "Light", "dark": "Dark" },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
   "scores": {
     "positive": "Positive",
     "neutral": "Neutral",
@@ -35,10 +66,18 @@
     "close": "Close",
     "placeholder": "Chart placeholder – will be filled later.",
     "slots": {
-      "1": { "title": "Chart 1" },
-      "2": { "title": "Chart 2" },
-      "3": { "title": "Chart 3" },
-      "4": { "title": "Chart 4" }
+      "1": {
+        "title": "Chart 1"
+      },
+      "2": {
+        "title": "Chart 2"
+      },
+      "3": {
+        "title": "Chart 3"
+      },
+      "4": {
+        "title": "Chart 4"
+      }
     }
   }
 }

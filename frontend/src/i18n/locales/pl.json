@@ -1,5 +1,12 @@
 {
-  "app": { "title": "Video-Sent", "subtitle": "Analiza sentymentu recenzji wideo telefonów" },
+  "app": {
+    "title": "Video-Sent",
+    "subtitle": "Analiza sentymentu recenzji wideo telefonów"
+  },
+  "final_charts": {
+    "times": "Średnie czasy analizy",
+    "values": "Średnie wyniki analizy"
+  },
   "form": {
     "urlLabel": "Link do filmu",
     "langLabel": "Język filmu",
@@ -7,19 +14,43 @@
     "analyze": "Analizuj",
     "placeholder": "Wklej URL YouTube lub TikTok…",
     "devicePlaceholder": "Wpisz tutaj nazwę urządzenia",
-    "errors": { "required": "URL jest wymagany.", "invalid": "Podaj poprawny adres URL." }
+    "errors": {
+      "required": "URL jest wymagany.",
+      "invalid": "Podaj poprawny adres URL."
+    }
   },
-  "lang": { "pl": "Polski", "en": "Angielski" },
-  "state": { "validating": "Walidacja…", "loading": "Przetwarzanie…", "error": "Błąd", "success": "Sukces" },
-  "history": { "title": "Historia", "empty": "Brak analiz. Wklej link i kliknij Analizuj.", "rerun": "Uruchom ponownie" },
+  "lang": {
+    "pl": "Polski",
+    "en": "Angielski"
+  },
+  "state": {
+    "validating": "Walidacja…",
+    "loading": "Przetwarzanie…",
+    "error": "Błąd",
+    "success": "Sukces"
+  },
+  "history": {
+    "title": "Historia",
+    "empty": "Brak analiz. Wklej link i kliknij Analizuj.",
+    "rerun": "Uruchom ponownie"
+  },
   "results": {
     "title": "Wyniki",
     "global": "Sentyment globalny",
-    "aspects": { "camera": "Aparat", "battery": "Bateria", "display": "Ekran", "performance": "Wydajność", "design": "Design" },
+    "aspects": {
+      "camera": "Aparat",
+      "battery": "Bateria",
+      "display": "Ekran",
+      "performance": "Wydajność",
+      "design": "Design"
+    },
     "quotes": "Cytaty",
     "placeholder": "Brak wyników. Wykonaj analizę, aby zobaczyć podsumowanie."
   },
-  "theme": { "light": "Jasny", "dark": "Ciemny" },
+  "theme": {
+    "light": "Jasny",
+    "dark": "Ciemny"
+  },
   "scores": {
     "positive": "Pozytywny",
     "neutral": "Neutralny",
@@ -35,11 +66,18 @@
     "close": "Zamknij",
     "placeholder": "Miejsce na wykres – zostanie wypełnione później.",
     "slots": {
-      "1": { "title": "Wykres 1" },
-      "2": { "title": "Wykres 2" },
-      "3": { "title": "Wykres 3" },
-      "4": { "title": "Wykres 4" }
+      "1": {
+        "title": "Wykres 1"
+      },
+      "2": {
+        "title": "Wykres 2"
+      },
+      "3": {
+        "title": "Wykres 3"
+      },
+      "4": {
+        "title": "Wykres 4"
+      }
     }
   }
-
 }

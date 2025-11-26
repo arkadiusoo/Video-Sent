@@ -82,11 +82,15 @@ def save_video_analysis(
     return new_id
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173",
+                                         "http://localhost:51731"]}})
+
 CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://localhost:51731"]}})
 
 @app.route("/health")
 def health():
     return {"status": "ok"}
+
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -102,7 +106,7 @@ def analyze():
 
     if language not in ("pl", "en"):
         return jsonify({"error": "Invalid 'language', expected 'pl' or 'en'"}), 400
-    
+
     device = data.get("device")
     if not device:
         return jsonify({"error": "Missing 'device' field"}), 400
@@ -167,6 +171,7 @@ def analyze():
         return jsonify({"error": "Internal server error"}), 500
 
 
+
 # Temporary, for testing download module
 @app.route("/download", methods=["POST"])
 def download_only():
@@ -174,7 +179,8 @@ def download_only():
     link = data.get("link")
 
     if not link:
-        return jsonify({"status": "error", "message": "Missing 'link' field"}), 400
+        return jsonify(
+            {"status": "error", "message": "Missing 'link' field"}), 400
 
     try:
         file_path = download_audio(link)
