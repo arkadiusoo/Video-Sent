@@ -8,13 +8,16 @@ import {useEffect, useState} from "react";
 export default function ChartsModal({show, onClose, url}) {
     console.log(url)
     const [data, setData] = useState(null);
+    const [savedUrl, setUrl] = useState(url);
     const {t} = useTranslation();
 
     useEffect(() => {
         const fetchData = async () => {
+
             if (!url) return;
             const localdata = await requestData(url);
             setData(localdata);
+
         };
         fetchData();
     }, [url]);
