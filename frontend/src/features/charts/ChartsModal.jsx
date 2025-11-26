@@ -6,14 +6,17 @@ import {requestData} from "../../shared/lib/api.js";
 import {useEffect, useState} from "react";
 
 export default function ChartsModal({show, onClose, url}) {
+    console.log(url)
     const [data, setData] = useState(null);
+    const [savedUrl, setUrl] = useState(url);
     const {t} = useTranslation();
 
     useEffect(() => {
         const fetchData = async () => {
-            url = "https://www.youtube.com/watch?v=zzMInF04PtE"
-            const localdata = await requestData(url)
-            setData(localdata)
+            if (savedUrl) {
+                const localdata = await requestData(savedUrl)
+                setData(localdata)
+            }
         };
         fetchData();
     }, []);

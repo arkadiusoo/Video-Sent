@@ -70,7 +70,33 @@ export async function apiStartAnalyze({url, lang, device}) {
     const jobId = Math.random().toString(36).slice(2);
     (async () => {
         await sleep(1200);
-        const aspects = fakeAspects();
+        // convert backend sentiment ratings (1–5) into words
+        const convertRatingToWord = (rating) => {
+            if (rating === undefined || rating === null) return "negative";
+            if (rating >= 4) return "positive";
+            if (rating === 3) return "neutral";
+            return "negative";
+        };
+
+        const aspects = Object.entries(downloadResult.sentiment || {}).map(
+            ([key, value]) => ({
+                key,
+                score: convertRatingToWord(value?.rating)
+            })
+        );
+
+        // if backend sends no aspects → mark everything as negative placeholder
+        if (aspects.length === 0) {
+
+            const fallbackKeys = ["camera", "battery", "screen", "efficiency"];
+            fallbackKeys.forEach(k =>
+                aspects.push({ key: k, score: "negative" })
+            );
+            const fallbackKeys2 = ["aparat", "bateria", "ekran", "wydajność"];
+            fallbackKeys2.forEach(k =>
+                aspects.push({ key: k, score: "negative" })
+            );
+        }
         const positives = aspects.filter(a => a.score === "positive").length;
         const negatives = aspects.filter(a => a.score === "negative").length;
         const summary = positives >= negatives ? "positive" : "negative";
