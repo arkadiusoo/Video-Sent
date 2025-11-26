@@ -14,5 +14,3 @@ flask-cors
 psycopg2-binary
 numpy
 pydub
-selenium
-pytest
