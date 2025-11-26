@@ -36,12 +36,12 @@ export async function requestData(url) {
     }
 }
 
-async function requestDownloadFromBackend(url) {
+async function requestDownloadFromBackend(url, lang, device) {
     try {
-        const res = await fetch(`${API_BASE}/download`, {
+        const res = await fetch(`${API_BASE}/analyze`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({link: url}),
+            body: JSON.stringify({link: url, language: lang, device: device}),
         });
 
         if (!res.ok) {
@@ -51,9 +51,9 @@ async function requestDownloadFromBackend(url) {
         const data = await res.json();
         console.log("[API] /download response:", data);
 
-        if (data.status !== "success") {
-            throw new Error(data.message || "Download failed");
-        }
+        // if (data.status !== "success") {
+        //     throw new Error(data.message || "Download failed");
+        // }
 
         return data; // { status, message, file_path }
     } catch (err) {
@@ -65,12 +65,38 @@ async function requestDownloadFromBackend(url) {
 
 export async function apiStartAnalyze({url, lang, device}) {
 
-    const downloadResult = await requestDownloadFromBackend(url);
+    const downloadResult = await requestDownloadFromBackend(url, lang, device);
     // in the future: fetch('/api/analyze', { method:'POST', body: JSON.stringify({url, lang}) })
     const jobId = Math.random().toString(36).slice(2);
     (async () => {
         await sleep(1200);
-        const aspects = fakeAspects();
+        // convert backend sentiment ratings (1–5) into words
+        const convertRatingToWord = (rating) => {
+            if (rating === undefined || rating === null) return "negative";
+            if (rating >= 4) return "positive";
+            if (rating === 3) return "neutral";
+            return "negative";
+        };
+
+        const aspects = Object.entries(downloadResult.sentiment || {}).map(
+            ([key, value]) => ({
+                key,
+                score: convertRatingToWord(value?.rating)
+            })
+        );
+
+        // if backend sends no aspects → mark everything as negative placeholder
+        if (aspects.length === 0) {
+
+            const fallbackKeys = ["camera", "battery", "screen", "efficiency"];
+            fallbackKeys.forEach(k =>
+                aspects.push({ key: k, score: "negative" })
+            );
+            const fallbackKeys2 = ["aparat", "bateria", "ekran", "wydajność"];
+            fallbackKeys2.forEach(k =>
+                aspects.push({ key: k, score: "negative" })
+            );
+        }
         const positives = aspects.filter(a => a.score === "positive").length;
         const negatives = aspects.filter(a => a.score === "negative").length;
         const summary = positives >= negatives ? "positive" : "negative";

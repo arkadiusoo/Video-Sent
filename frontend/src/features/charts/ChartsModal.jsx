@@ -13,13 +13,14 @@ export default function ChartsModal({show, onClose, url}) {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (savedUrl) {
-                const localdata = await requestData(savedUrl)
-                setData(localdata)
-            }
+
+            if (!url) return;
+            const localdata = await requestData(url);
+            setData(localdata);
+
         };
         fetchData();
-    }, []);
+    }, [url]);
 
     function ChartOfChoice(number) {
         const n = number.number
