@@ -12,12 +12,12 @@ export default function ChartsModal({show, onClose, url}) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const url ="https://www.youtube.com/shorts/0amYSfrACao"
-                const localdata = await requestData(url)
-                setData(localdata)
+            if (!url) return;
+            const localdata = await requestData(url);
+            setData(localdata);
         };
         fetchData();
-    }, []);
+    }, [url]);
 
     function ChartOfChoice(number) {
         const n = number.number
